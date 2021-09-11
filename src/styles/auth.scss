@@ -1,0 +1,93 @@
+#page-auth {
+	display: flex;
+	align-items: stretch;
+	height: 100vh;
+
+	main {
+		flex: 1;
+		padding: 0 32px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	aside {
+		flex: 1;
+		background: #835afd;
+		color: #FFF;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		
+		padding: 120px 80px;
+	}
+	
+	img {
+		max-width: 320px;
+		justify-items: center;
+	}
+	
+	strong {
+		font: 700 36px 'Poppins';
+		line-height: 42px;
+		margin-top: 16px;
+	}
+	
+	p{
+		font-size: 24px;
+		line-height: 32px;
+		margin-top: 16px;
+		color: #f8f8f8;
+	}
+	
+	.main-content{
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		max-width: 320px;
+		align-items: center;
+		text-align: center;
+		
+		> img {
+			align-self: center;
+		}
+		
+		input {
+			display: flex;
+			height: 40px;
+			width: 260px;
+			border-radius: 5px;
+			border: .3px solid green;
+			margin: 8px;
+			text-align-last: center;
+		}
+		
+		button {
+			display: flex;
+			background-color: #835afd;
+			border-radius: 5px;
+			border: 0px solid #990000;
+			align-self: center;
+			margin-top: 5px;
+			height: 40px;
+			width: 260px;
+			font-size: 16px;
+			// text-align: center;
+			display:table-cell;
+			// vertical-align:middle;
+		}
+	}
+	
+	[data-tooltip]{
+		position: relative;
+	}
+	
+	[data-tooltip]:hover::after {
+		content: attr(data-tooltip);
+		position: absolute;
+		top: 100%;
+		margin-top: 3px;
+		left: 0;
+		right: 0;
+		font-size: 9px;
+	}
+}
