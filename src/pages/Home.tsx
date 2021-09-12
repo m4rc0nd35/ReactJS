@@ -1,24 +1,25 @@
 import '../styles/auth.scss';
-import React from 'react';
+import { Component } from 'react';
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
-export class Home extends React.Component {
+class Home extends Component<RouteComponentProps> {
 
 	logout = (): void => {
-		console.log('logout!')
+		console.log(this.props);
+		this.props.history.push('/auth');
 	}
 
 	render() {
 		return (
 			<div id="page-auth">
 				<aside id="aside">
-					<strong>Auth user</strong>
+					<strong>BEM VINDO JOÃO!</strong>
 					<p>
 
 					</p>
 				</aside>
 				<main>
 					<div className="main-content">
-						<div>Autentica-se para ter acesso ao sistema.</div>
 						<button
 							data-tooltip="Preencha os dados e autentique-se para começar!"
 							type="submit"
@@ -30,3 +31,5 @@ export class Home extends React.Component {
 		)
 	}
 }
+
+export default withRouter(Home);

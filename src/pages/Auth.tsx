@@ -1,9 +1,8 @@
 import '../styles/auth.scss';
-import React, { useState } from 'react';
-// import { Redirect, RouteComponentProps } from "react-router-dom";
-import ReactNotification, {store } from 'react-notifications-component';
-import jwtDecode from "jwt-decode";
-import 'react-notifications-component/dist/theme.css'
+import { store } from 'react-notifications-component';
+import { Component, FormEvent } from 'react';
+import { withRouter, RouteComponentProps } from "react-router-dom";
+
 type State = {
 	username?: string;
 	password?: string;
@@ -13,7 +12,7 @@ type State = {
 	access_token?: string;
 }
 
-export class Auth extends React.Component {
+class Auth extends Component<RouteComponentProps> {
 
 	public state: State = {
 		username: "",
@@ -24,10 +23,9 @@ export class Auth extends React.Component {
 		access_token: ""
 	}
 
-	submitHandler = async (event: React.FormEvent) => {
+	submitHandler = async (event: FormEvent) => {
 		event.preventDefault();
 		this.setState({ disabled: true })
-		// let history = useHistory();
 
 		const requestOptions = {
 			method: 'POST',
@@ -41,65 +39,49 @@ export class Auth extends React.Component {
 			const data = await response.json();
 
 			/* Hooks state */
-			this.setState({ message: data.message })
-			this.setState({ access_token: data.access_token })
-			this.setState({ status: response.status })
-			/* Success response */
-			if (!response.ok){
+			this.setState({ message: data.message });
+			this.setState({ access_token: data.access_token });
+			this.setState({ status: response.status });
+			/* Not ok response */
+			if (!response.ok) {
 				store.addNotification({
-					title: "Erro na autenticação!",
+					title: "Não autenticado!",
 					message: data.message,
 					type: "danger",
 					insert: "top",
 					container: "top-right",
 					dismiss: {
-					  duration: 3000
+						duration: 3000
 					}
-				  });
-				
-				return this.setState({ disabled: false })
+				});
+				return this.setState({ disabled: false });
 			}
-			
-			this.checkToken(data.access_token);
-			
-			  
-			console.log(data)
+
+			this.props.history.push('/home/');
+			console.log(data);
 		} catch (error) {
 			console.error(error);
 		}
 	}
 
-	onChange = (e: React.FormEvent<HTMLInputElement>): void => {
-		const nameInput: string = e.currentTarget.name;
-		if (nameInput === "username")
-			this.setState({ username: e.currentTarget.value })
-
-		if (nameInput === "password")
-			this.setState({ password: e.currentTarget.value });
+	onChange = (event: FormEvent<HTMLInputElement>): void => {
+			this.setState({ [event.currentTarget.name]: event.currentTarget.value })
 	};
-	
-	checkToken = (token: string) =>{
-		const decoded = jwtDecode(token);
-		const currentTime = Date.now() / 1000;
-		const exp = JSON.parse(JSON.stringify(decoded)).exp;
-		console.log(exp);
-		console.log(exp > currentTime);
-	}
 
 	render() {
 		return (
 			<div id="page-auth">
 				<aside id="aside">
-					<strong>Auth user</strong>
+					<strong></strong>
 					<p>
-						Sistema de autentcação centralizado.
+						Página de autentcação.
 					</p>
 				</aside>
-					<ReactNotification/>
+
 				<main>
 					<div className="main-content">
-						<div>Autentica-se para ter acesso ao sistema.</div>
-						<form onSubmit={this.submitHandler.bind(this)}>
+						<div>Autentica-se.</div>
+						<form onSubmit={this.submitHandler}>
 							<input
 								name="username"
 								type="text"
@@ -128,3 +110,5 @@ export class Auth extends React.Component {
 		)
 	}
 }
+
+export default withRouter(Auth);
