@@ -9,7 +9,6 @@ type State = {
 	message?: string;
 	status?: number;
 	disabled?: boolean;
-	access_token?: string;
 }
 
 class Auth extends Component<RouteComponentProps> {
@@ -19,8 +18,7 @@ class Auth extends Component<RouteComponentProps> {
 		password: "",
 		message: "",
 		status: 0,
-		disabled: false,
-		access_token: ""
+		disabled: false
 	}
 
 	submitHandler = async (event: FormEvent) => {
@@ -38,12 +36,12 @@ class Auth extends Component<RouteComponentProps> {
 			const response = await fetch('http://oracle.cloud.remonet.com.br:3000/user/auth', requestOptions);
 			const data = await response.json();
 
-			/* Hooks state */
+			/* Hooks set state */
 			this.setState({ message: data.message });
-			this.setState({ access_token: data.access_token });
 			this.setState({ status: response.status });
+			
 			/* Not ok response */
-			if (!response.ok) {
+			if (!response.ok)
 				store.addNotification({
 					title: "Não autenticado!",
 					message: data.message,
@@ -54,18 +52,29 @@ class Auth extends Component<RouteComponentProps> {
 						duration: 3000
 					}
 				});
-				return this.setState({ disabled: false });
+
+			if (response.ok){
+				sessionStorage.setItem('TOKEN', data.access_token);
+				this.props.history.push('/home/');
 			}
 
-			this.props.history.push('/home/');
-			console.log(data);
 		} catch (error) {
-			console.error(error);
+			store.addNotification({
+				title: "Exception!",
+				message: String('Auth class 1001: ' + error),
+				type: "danger",
+				insert: "top",
+				container: "top-center",
+				dismiss: {
+					duration: 5000
+				}
+			});
 		}
+		return this.setState({ disabled: false });
 	}
 
 	onChange = (event: FormEvent<HTMLInputElement>): void => {
-			this.setState({ [event.currentTarget.name]: event.currentTarget.value })
+		this.setState({ [event.currentTarget.name]: event.currentTarget.value })
 	};
 
 	render() {

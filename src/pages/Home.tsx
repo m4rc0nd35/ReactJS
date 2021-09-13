@@ -5,7 +5,8 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 class Home extends Component<RouteComponentProps> {
 
 	logout = (): void => {
-		console.log(this.props);
+		console.log(sessionStorage.getItem('TOKEN'));
+		sessionStorage.removeItem('TOKEN');
 		this.props.history.push('/auth');
 	}
 
@@ -21,7 +22,7 @@ class Home extends Component<RouteComponentProps> {
 				<main>
 					<div className="main-content">
 						<button
-							data-tooltip="Preencha os dados e autentique-se para começar!"
+							data-tooltip="Clique aqui para sair!"
 							type="submit"
 							onClick={this.logout}
 						>Logout</button>

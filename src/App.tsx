@@ -1,37 +1,20 @@
-import Home from './pages/Home';
-import 'react-notifications-component/dist/theme.css'
+import 'react-notifications-component/dist/theme.css';
 import ReactNotification from 'react-notifications-component';
+import Home from './pages/Home';
 import Auth from './pages/Auth';
 import { NotFound } from './pages/NotFound';
-// import { PrivateRoute } from './pages/PrivateRoute';
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	// Redirect,
-	RouteComponentProps
-} from "react-router-dom";
-import { Children } from 'react';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {
-
 	return (
-		// <PrivateRoute>
-		<Router>
+		<BrowserRouter>
 			<ReactNotification />
 			<Switch>
-				<Route exact path="/home">
-					<Home />
-				</Route>
-				<Route exact path="/auth">
-					<Auth {...Children} />
-				</Route>
-				<Route>
-					<NotFound />
-				</Route>
+				<Route exact path="/home" component={Home} />
+				<Route exact path="/auth" component={Auth} />
+				<Route component={NotFound} />
 			</Switch>
-		</Router>
-		// </PrivateRoute >
+		</BrowserRouter>
 	);
 }
 export default App;
