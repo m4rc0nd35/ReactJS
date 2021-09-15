@@ -2,6 +2,8 @@ import '../styles/auth.scss';
 import { store } from 'react-notifications-component';
 import { Component, FormEvent } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import { config } from '../setting';
+import { requestApi } from '../services/Request';
 
 type State = {
 	username?: string;
@@ -21,9 +23,35 @@ class Auth extends Component<RouteComponentProps> {
 		disabled: false
 	}
 
+	// constructor(props: RouteComponentProps) {
+	// 	super(props);
+
+	// 	this.state = {
+	// 		username: "",
+	// 		password: "",
+	// 		message: "",
+	// 		status: 0,
+	// 		disabled: false
+	// 	};
+
+	// 	this.submitHandler = this.submitHandler.bind(this);
+	// 	this.onChange = this.onChange.bind(this);
+	// }
+
+	componentDidMount() {
+		console.log('componentDidMount');
+	}
+
+	componentWillUnmount = () => {
+		console.log('componentWillUnmount');
+	}
+
+	componentDidUpdate = () => {
+		console.log('componentDidUpdate')
+	}
+
 	submitHandler = async (event: FormEvent) => {
 		event.preventDefault();
-		this.setState({ disabled: true })
 
 		const requestOptions = {
 			method: 'POST',
@@ -32,16 +60,17 @@ class Auth extends Component<RouteComponentProps> {
 		};
 
 		try {
+			this.setState({ disabled: true })
 			/* Request API */
-			const response = await fetch('http://oracle.cloud.remonet.com.br:3000/user/auth', requestOptions);
+			const response = await requestApi('/user/auth', requestOptions);
 			const data = await response.json();
 
 			/* Hooks set state */
 			this.setState({ message: data.message });
 			this.setState({ status: response.status });
-			
-			/* Not ok response */
-			if (!response.ok)
+
+			/* Response not statusCode 202 */
+			if (!response.ok) {
 				store.addNotification({
 					title: "Não autenticado!",
 					message: data.message,
@@ -52,9 +81,11 @@ class Auth extends Component<RouteComponentProps> {
 						duration: 3000
 					}
 				});
+				this.setState({ disabled: false });
+			}
 
-			if (response.ok){
-				sessionStorage.setItem('TOKEN', data.access_token);
+			if (response.ok) {
+				sessionStorage.setItem(config.TOKEN, data.access_token);
 				this.props.history.push('/home/');
 			}
 
@@ -70,7 +101,6 @@ class Auth extends Component<RouteComponentProps> {
 				}
 			});
 		}
-		return this.setState({ disabled: false });
 	}
 
 	onChange = (event: FormEvent<HTMLInputElement>): void => {
