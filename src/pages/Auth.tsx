@@ -2,7 +2,7 @@ import '../styles/auth.scss';
 import { store } from 'react-notifications-component';
 import { Component, FormEvent } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { config } from '../setting';
+import { Authentication } from '../services/AuthService';
 import { requestApi } from '../services/Request';
 
 type State = {
@@ -85,8 +85,10 @@ class Auth extends Component<RouteComponentProps> {
 			}
 
 			if (response.ok) {
-				sessionStorage.setItem(config.TOKEN, data.access_token);
-				this.props.history.push('/home/');
+				const success = new Authentication().create(data.access_token);
+				
+				if(success)
+					this.props.history.push('/home');
 			}
 
 		} catch (error) {

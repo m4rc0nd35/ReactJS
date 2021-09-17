@@ -1,20 +1,37 @@
 import '../styles/auth.scss';
+import { store } from 'react-notifications-component';
 import { Component } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import jwtDecode from "jwt-decode";
-import { config } from '../setting'
+import { Authentication } from '../services/AuthService';
 
 class Home extends Component<RouteComponentProps> {
 
 	logout = (): void => {
-		try {
-			const decoded = jwtDecode(String(sessionStorage.getItem(config.TOKEN)));
-			console.log(decoded);
-			sessionStorage.removeItem(config.TOKEN);
+		if (new Authentication().delete())
 			this.props.history.push('/auth');
+	}
+
+	tokenKeepAlive = () => {
+		const payload = new Authentication();
+
+		try {
+			console.log(payload.payload());
 		} catch (error) {
-			console.log(error)
+			store.addNotification({
+				title: "Exceção inesperada!",
+				message: "Você deve-se autenticar novamente!",
+				type: "danger",
+				insert: "top",
+				container: "top-right",
+				dismiss: {
+					duration: 5000
+				}
+			});
+			this.props.history.push('/auth');
 		}
+
+		if (!payload.keepAlive())
+			this.props.history.push('/auth');
 	}
 
 	render() {
@@ -23,11 +40,16 @@ class Home extends Component<RouteComponentProps> {
 				<aside id="aside">
 					<strong>BEM VINDO JOÃO!</strong>
 					<p>
-
+						bla bla bla
 					</p>
 				</aside>
 				<main>
 					<div className="main-content">
+						<button
+							data-tooltip="Check Token keep alive"
+							type="button"
+							onClick={this.tokenKeepAlive}
+						>Token</button>
 						<button
 							data-tooltip="Clique aqui para sair!"
 							type="submit"
