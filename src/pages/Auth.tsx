@@ -126,7 +126,7 @@ class Auth extends Component<RouteComponentProps> {
 							<input
 								name="username"
 								type="text"
-								placeholder="Digite seu cpf"
+								placeholder="Digite seu login"
 								onChange={this.onChange}
 								value={this.state.username}
 								required
@@ -145,6 +145,9 @@ class Auth extends Component<RouteComponentProps> {
 								disabled={this.state.disabled}
 							>Autenticar</button>
 						</form>
+						<div>
+							<a href="/register">Cadastre-se</a>
+						</div>
 					</div>
 				</main>
 			</div>

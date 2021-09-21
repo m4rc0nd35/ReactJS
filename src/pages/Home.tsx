@@ -4,18 +4,50 @@ import { Component } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Authentication } from '../services/AuthService';
 
-class Home extends Component<RouteComponentProps> {
+type Payload = {
+	id: number;
+	name: string;
+	email: string;
+	iat: number;
+	exp: number;
+}
+type State = {
+	payload: Payload
+}
 
+class Home extends Component<RouteComponentProps> {
+	
+	public state: State = {
+		payload: {
+			id: 0,
+			name: '',
+			email: '',
+			iat: 0,
+			exp: 0
+		}
+	};
+	
+	expire: Date = new Date();
+	
+	componentDidMount() {
+		const payload = new Authentication().payload();
+		this.setState({payload: payload});
+		
+		this.expire = new Date(Number(payload.exp) * 1000)
+		
+		console.log(this.context);
+	}
+	
 	logout = (): void => {
 		if (new Authentication().delete())
 			this.props.history.push('/auth');
 	}
 
 	tokenKeepAlive = () => {
-		const payload = new Authentication();
+		const token = new Authentication();
 
 		try {
-			console.log(payload.payload());
+			console.log(token.payload());
 		} catch (error) {
 			store.addNotification({
 				title: "Exceção inesperada!",
@@ -30,7 +62,7 @@ class Home extends Component<RouteComponentProps> {
 			this.props.history.push('/auth');
 		}
 
-		if (!payload.keepAlive())
+		if (!token.keepAlive())
 			this.props.history.push('/auth');
 	}
 
@@ -38,10 +70,8 @@ class Home extends Component<RouteComponentProps> {
 		return (
 			<div id="page-auth">
 				<aside id="aside">
-					<strong>BEM VINDO JOÃO!</strong>
-					<p>
-						bla bla bla
-					</p>
+					<strong>{this.state.payload.name.toUpperCase()}!</strong>
+					<p>Expira {this.expire.toLocaleDateString() +' as '+this.expire.toLocaleTimeString()}</p>
 				</aside>
 				<main>
 					<div className="main-content">

@@ -1,7 +1,7 @@
 import jwtDecode from "jwt-decode";
 import { config } from '../setting'
 
-interface IPayload {
+type IPayload = {
 	name: string;
 	email: string;
 	iat: Number;
