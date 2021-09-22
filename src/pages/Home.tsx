@@ -27,15 +27,17 @@ class Home extends Component<RouteComponentProps> {
 		}
 	};
 	
-	expire: Date = new Date();
+	private expire: Date = new Date();
 	
 	componentDidMount() {
-		const payload = new Authentication().payload();
-		this.setState({payload: payload});
-		
-		this.expire = new Date(Number(payload.exp) * 1000)
-		
-		console.log(this.context);
+		try {
+			const payload = new Authentication().payload();
+			this.setState({payload: payload});
+			
+			this.expire = new Date(Number(payload.exp) * 1000);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 	
 	logout = (): void => {
@@ -70,8 +72,8 @@ class Home extends Component<RouteComponentProps> {
 		return (
 			<div id="page-auth">
 				<aside id="aside">
-					<strong>{this.state.payload.name.toUpperCase()}!</strong>
-					<p>Expira {this.expire.toLocaleDateString() +' as '+this.expire.toLocaleTimeString()}</p>
+					<strong>[ {this.state.payload.name.toUpperCase()} ]</strong>
+					<p>[ Expira {this.expire.toLocaleDateString() +' as '+this.expire.toLocaleTimeString()} ]</p>
 				</aside>
 				<main>
 					<div className="main-content">

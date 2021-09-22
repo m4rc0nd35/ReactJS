@@ -62,10 +62,19 @@ class Register extends Component<RouteComponentProps> {
 					});
 				});
 
-			if (response.status === 400)
-				console.log(response);
-				
-			if (response.ok){
+			if (response.status === 406)
+				store.addNotification({
+					title: 'Erro no cadastro',
+					message: 'Usuário já cadastrado!',
+					type: "danger",
+					insert: "top",
+					container: "top-right",
+					dismiss: {
+						duration: 5000
+					}
+				});
+
+			if (response.ok) {
 				store.addNotification({
 					title: 'Autenticado com sucesso!',
 					message: 'Bem vindo',
@@ -78,8 +87,6 @@ class Register extends Component<RouteComponentProps> {
 				});
 				this.props.history.push('/auth');
 			}
-
-			console.log(data);
 		} catch (e) {
 			console.log(e);
 		}

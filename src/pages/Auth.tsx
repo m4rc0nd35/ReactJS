@@ -88,7 +88,7 @@ class Auth extends Component<RouteComponentProps> {
 				const success = new Authentication().create(data.access_token);
 				
 				if(success)
-					this.props.history.push('/home');
+					this.props.history.push('/');
 			}
 
 		} catch (error) {

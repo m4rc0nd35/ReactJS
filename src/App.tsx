@@ -5,16 +5,16 @@ import Auth from './pages/Auth';
 import Register from './pages/Register';
 import { NotFound } from './pages/NotFound';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import PrivateRouter from './contexts/ContextPrivateRouters';
+import { PublicRoute, PrivateRoute } from './Routers/PrivateRoute';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<ReactNotification />
 			<Switch>
-				<Route exact path="/home" component={Home} />
-				<Route exact path="/auth" component={Auth} />
-				<PrivateRouter exact path="/register" component={Register} />
+				<PrivateRoute exact path="/" component={Home} />
+				<PublicRoute exact path="/auth" component={Auth} />
+				<Route exact path="/register" component={Register} />
 				<Route component={NotFound} />
 			</Switch>
 		</BrowserRouter>
