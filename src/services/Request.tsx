@@ -1,4 +1,3 @@
-import Response from 'react';
 import { config } from '../setting';
 
 export const requestApi = (endpoint: string, headers: object): Promise<Response> => {

@@ -13,6 +13,7 @@ type State = {
 	disabled?: boolean;
 }
 
+
 class Auth extends Component<RouteComponentProps> {
 
 	public state: State = {
@@ -69,25 +70,44 @@ class Auth extends Component<RouteComponentProps> {
 			this.setState({ message: data.message });
 			this.setState({ status: response.status });
 
-			/* Response not statusCode 202 */
+			/* Response statusCode is 400 */
 			if (!response.ok) {
-				store.addNotification({
-					title: "Não autenticado!",
-					message: data.message,
-					type: "danger",
-					insert: "top",
-					container: "top-right",
-					dismiss: {
-						duration: 3000
+				if (response.status === 400) {
+					/* is possible multiple errors */
+					for (const rError of data.errors) {
+						store.addNotification({
+							title: rError.param,
+							message: rError.msg,
+							type: "danger",
+							insert: "top",
+							container: "top-right",
+							dismiss: {
+								duration: 3000
+							}
+						});
 					}
-				});
+				}
+
+				if (response.status === 401) {
+					store.addNotification({
+						title: "Não autenticado!",
+						message: data.message,
+						type: "danger",
+						insert: "top",
+						container: "top-right",
+						dismiss: {
+							duration: 3000
+						}
+					});
+				}
+
 				this.setState({ disabled: false });
 			}
 
 			if (response.ok) {
 				const success = new Authentication().create(data.access_token);
-				
-				if(success)
+
+				if (success)
 					this.props.history.push('/');
 			}
 
@@ -102,6 +122,7 @@ class Auth extends Component<RouteComponentProps> {
 					duration: 5000
 				}
 			});
+			this.setState({ disabled: false });
 		}
 	}
 
@@ -112,12 +133,6 @@ class Auth extends Component<RouteComponentProps> {
 	render() {
 		return (
 			<div id="page-auth">
-				<aside id="aside">
-					<strong></strong>
-					<p>
-						Página de autentcação.
-					</p>
-				</aside>
 
 				<main>
 					<div className="main-content">
@@ -150,6 +165,12 @@ class Auth extends Component<RouteComponentProps> {
 						</div>
 					</div>
 				</main>
+				<aside id="aside">
+					<strong></strong>
+					<p>
+						Página de autentcação.
+					</p>
+				</aside>
 			</div>
 		)
 	}

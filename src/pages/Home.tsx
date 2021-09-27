@@ -38,6 +38,7 @@ class Home extends Component<RouteComponentProps> {
 		} catch (error) {
 			console.error(error);
 		}
+		console.log(this.context);
 	}
 	
 	logout = (): void => {

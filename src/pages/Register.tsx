@@ -16,11 +16,6 @@ type State = {
 	disabled?: boolean;
 }
 
-type Erro400 = {
-	msg: string;
-	param: string;
-}
-
 class Register extends Component<RouteComponentProps> {
 
 	public state: State = {
@@ -48,11 +43,26 @@ class Register extends Component<RouteComponentProps> {
 			const response = await requestApi('/user/register', requestOptions);
 			const data = await response.json();
 
-			if (response.status === 400)
-				data.errors.map((error: Erro400) => {
-					return store.addNotification({
-						title: error.param,
-						message: error.msg,
+			if (!response.ok) {
+				if (response.status === 400)
+					/* is possible multiple errors */
+					for (const rError of data.errors) {
+						store.addNotification({
+							title: rError.param,
+							message: rError.msg,
+							type: "danger",
+							insert: "top",
+							container: "top-right",
+							dismiss: {
+								duration: 5000
+							}
+						});
+					};
+
+				if (response.status === 406)
+					store.addNotification({
+						title: 'Erro no cadastro',
+						message: 'Usuário já cadastrado!',
 						type: "danger",
 						insert: "top",
 						container: "top-right",
@@ -60,19 +70,8 @@ class Register extends Component<RouteComponentProps> {
 							duration: 5000
 						}
 					});
-				});
-
-			if (response.status === 406)
-				store.addNotification({
-					title: 'Erro no cadastro',
-					message: 'Usuário já cadastrado!',
-					type: "danger",
-					insert: "top",
-					container: "top-right",
-					dismiss: {
-						duration: 5000
-					}
-				});
+				return;
+			}
 
 			if (response.ok) {
 				store.addNotification({

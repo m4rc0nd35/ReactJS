@@ -8,7 +8,7 @@ type IPayload = {
 	exp: Number;
 }
 
-export class Authentication {
+export class Authentication{
 
 	create = (token: string): boolean => {
 		try {
@@ -36,7 +36,7 @@ export class Authentication {
 			console.log(now);
 			if (!alive)
 				this.delete();
-				
+
 			return alive;
 		} catch (error) {
 			this.delete();
