@@ -1,7 +1,7 @@
 import jwtDecode from "jwt-decode";
 import { config } from '../setting'
 
-type IPayload = {
+interface IPayload {
 	name: string;
 	email: string;
 	iat: Number;
@@ -33,7 +33,7 @@ export class Authentication{
 			const payload: IPayload = jwtDecode(String(sessionStorage.getItem(config.TOKEN)));
 			const now: Number = (Date.now() / 1000);
 			const alive = (payload.exp > now) ? true : false;
-			console.log(now);
+			
 			if (!alive)
 				this.delete();
 

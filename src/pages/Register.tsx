@@ -6,28 +6,34 @@ import { requestApi } from '../services/Request';
 
 type State = {
 	name: string;
-	username?: string;
-	password?: string;
+	username: string;
+	password: string;
 	email: string;
 	phone: string;
 	address: string;
-	message?: string;
-	status?: number;
-	disabled?: boolean;
+	message: string;
+	status: number;
+	disabled: boolean;
 }
 
 class Register extends Component<RouteComponentProps> {
 
-	public state: State = {
-		name: "",
-		username: "",
-		password: "",
-		email: "",
-		phone: "",
-		address: "",
-		message: "",
-		status: 0,
-		disabled: false
+	public state: Partial<State>;
+	
+	constructor(props: RouteComponentProps) {
+		super(props);
+
+		this.state = {
+			name: "",
+			username: "",
+			password: "",
+			email: "",
+			phone: "",
+			address: "",
+		}
+
+		this.create = this.create.bind(this);
+		this.onChange = this.onChange.bind(this);
 	}
 
 	create = async (event: FormEvent) => {

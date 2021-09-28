@@ -1,5 +1,5 @@
 export const config = {
-	TOKEN: '@t',
+	TOKEN: '@tsssss',
 	URL: 'oracle.cloud.remonet.com.br',
 	PORT: '3000'
 }

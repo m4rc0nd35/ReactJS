@@ -6,49 +6,27 @@ import { Authentication } from '../services/AuthService';
 import { requestApi } from '../services/Request';
 
 type State = {
-	username?: string;
-	password?: string;
-	message?: string;
-	status?: number;
-	disabled?: boolean;
+	username: string;
+	password: string;
+	message: string;
+	status: number;
+	disabled: boolean;
 }
-
 
 class Auth extends Component<RouteComponentProps> {
 
-	public state: State = {
-		username: "",
-		password: "",
-		message: "",
-		status: 0,
-		disabled: false
-	}
+	public state: Partial<State>;
 
-	// constructor(props: RouteComponentProps) {
-	// 	super(props);
+	constructor(props: RouteComponentProps) {
+		super(props);
 
-	// 	this.state = {
-	// 		username: "",
-	// 		password: "",
-	// 		message: "",
-	// 		status: 0,
-	// 		disabled: false
-	// 	};
+		this.state = {
+			username: "",
+			password: ""
+		};
 
-	// 	this.submitHandler = this.submitHandler.bind(this);
-	// 	this.onChange = this.onChange.bind(this);
-	// }
-
-	componentDidMount() {
-		console.log('componentDidMount');
-	}
-
-	componentWillUnmount = () => {
-		console.log('componentWillUnmount');
-	}
-
-	componentDidUpdate = () => {
-		console.log('componentDidUpdate')
+		this.submitHandler = this.submitHandler.bind(this);
+		this.onChange = this.onChange.bind(this);
 	}
 
 	submitHandler = async (event: FormEvent) => {

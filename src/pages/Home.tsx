@@ -11,6 +11,7 @@ type Payload = {
 	iat: number;
 	exp: number;
 }
+
 type State = {
 	payload: Payload
 }
@@ -38,7 +39,6 @@ class Home extends Component<RouteComponentProps> {
 		} catch (error) {
 			console.error(error);
 		}
-		console.log(this.context);
 	}
 	
 	logout = (): void => {
@@ -79,13 +79,12 @@ class Home extends Component<RouteComponentProps> {
 				<main>
 					<div className="main-content">
 						<button
-							data-tooltip="Check Token keep alive"
 							type="button"
 							onClick={this.tokenKeepAlive}
-						>Token</button>
+						>Check Keep Alive</button>
 						<button
 							data-tooltip="Clique aqui para sair!"
-							type="submit"
+							type="button"
 							onClick={this.logout}
 						>Logout</button>
 					</div>
