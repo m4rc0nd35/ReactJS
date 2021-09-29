@@ -1,4 +1,4 @@
-import '../styles/auth.scss';
+import '../styles/home.scss';
 import { store } from 'react-notifications-component';
 import { Component } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
@@ -13,11 +13,11 @@ type Payload = {
 }
 
 type State = {
-	payload: Payload
+	payload: Payload;
 }
 
 class Home extends Component<RouteComponentProps> {
-	
+
 	public state: State = {
 		payload: {
 			id: 0,
@@ -27,20 +27,20 @@ class Home extends Component<RouteComponentProps> {
 			exp: 0
 		}
 	};
-	
+
 	private expire: Date = new Date();
-	
+
 	componentDidMount() {
 		try {
 			const payload = new Authentication().payload();
-			this.setState({payload: payload});
-			
+			this.setState({ payload: payload });
+
 			this.expire = new Date(Number(payload.exp) * 1000);
 		} catch (error) {
 			console.error(error);
 		}
 	}
-	
+
 	logout = (): void => {
 		if (new Authentication().delete())
 			this.props.history.push('/auth');
@@ -71,13 +71,16 @@ class Home extends Component<RouteComponentProps> {
 
 	render() {
 		return (
-			<div id="page-auth">
-				<aside id="aside">
-					<strong>[ {this.state.payload.name.toUpperCase()} ]</strong>
-					<p>[ Expira {this.expire.toLocaleDateString() +' as '+this.expire.toLocaleTimeString()} ]</p>
-				</aside>
-				<main>
-					<div className="main-content">
+			<div className="page-home">
+				<nav id="page-menu">
+					<li>test</li>
+					<div id="nav-bar-user">
+						<div>[ {this.state.payload.name.toUpperCase()} ]</div>
+						<p>[ Expira {this.expire.toLocaleDateString() + ' as ' + this.expire.toLocaleTimeString()} ]</p>
+					</div>
+				</nav>
+				<main id="main-content">
+					<div>
 						<button
 							type="button"
 							onClick={this.tokenKeepAlive}
@@ -89,6 +92,7 @@ class Home extends Component<RouteComponentProps> {
 						>Logout</button>
 					</div>
 				</main>
+				<footer id="page-footer">Company Dev Cloud Innovations</footer>
 			</div>
 		)
 	}

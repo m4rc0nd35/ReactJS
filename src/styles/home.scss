@@ -1,0 +1,42 @@
+.page-home{
+	// display: flex;
+	align-items: stretch;
+	height: 100vh;
+	flex-direction: row;
+	
+	#page-menu {
+		flex-direction: column;
+		display: flex;
+		top: 0;
+		position: fixed;
+		height: 5em;
+		width: 100%;
+		padding-left: 25px;
+		padding-right: 25px;
+		background-color: #09141C;
+		
+		#nav-bar-user{
+			right: 20px;
+			font-size: 9px;
+			background-color: lightgray;
+		}
+	}
+	
+	#main-content {
+		margin-top: 50%;
+		height: 100vh;
+		background-color: #021214;
+	}
+	
+	#page-footer{
+		position: fixed;
+		bottom: 0;
+		height: 5%;
+		width: 100%;
+		background-color: #242525;
+		text-align: center;
+		color: #FFF;
+		font-size: 10px;
+		font-family: 'Courier New', Courier, monospace;
+	}
+}

@@ -2,7 +2,7 @@ import '../styles/auth.scss';
 import { store } from 'react-notifications-component';
 import { Component, FormEvent } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { requestApi } from '../services/Request';
+import { requestJson } from '../services/Request';
 
 type State = {
 	name: string;
@@ -39,14 +39,8 @@ class Register extends Component<RouteComponentProps> {
 	create = async (event: FormEvent) => {
 		event.preventDefault();
 
-		const requestOptions = {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(this.state)
-		}
-
 		try {
-			const response = await requestApi('/user/register', requestOptions);
+			const response = await requestJson('/user/register', 'POST', this.state);
 			const data = await response.json();
 
 			if (!response.ok) {

@@ -3,7 +3,7 @@ import { store } from 'react-notifications-component';
 import { Component, FormEvent } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Authentication } from '../services/AuthService';
-import { requestApi } from '../services/Request';
+import { requestJson } from '../services/Request';
 
 type State = {
 	username: string;
@@ -32,16 +32,10 @@ class Auth extends Component<RouteComponentProps> {
 	submitHandler = async (event: FormEvent) => {
 		event.preventDefault();
 
-		const requestOptions = {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(this.state)
-		};
-
 		try {
 			this.setState({ disabled: true })
 			/* Request API */
-			const response = await requestApi('/user/auth', requestOptions);
+			const response = await requestJson('/user/auth', 'POST', this.state);
 			const data = await response.json();
 
 			/* Hooks set state */
@@ -111,7 +105,6 @@ class Auth extends Component<RouteComponentProps> {
 	render() {
 		return (
 			<div id="page-auth">
-
 				<main>
 					<div className="main-content">
 						<div>Autentica-se.</div>
