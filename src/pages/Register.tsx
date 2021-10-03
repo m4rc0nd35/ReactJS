@@ -3,6 +3,7 @@ import { store } from 'react-notifications-component';
 import { Component, FormEvent } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { requestJson } from '../services/Request';
+import { PhoneInput } from '../components/PhoneInput';
 
 type State = {
 	name: string;
@@ -19,7 +20,7 @@ type State = {
 class Register extends Component<RouteComponentProps> {
 
 	public state: Partial<State>;
-	
+
 	constructor(props: RouteComponentProps) {
 		super(props);
 
@@ -31,14 +32,13 @@ class Register extends Component<RouteComponentProps> {
 			phone: "",
 			address: "",
 		}
-
 		this.create = this.create.bind(this);
 		this.onChange = this.onChange.bind(this);
 	}
 
 	create = async (event: FormEvent) => {
 		event.preventDefault();
-
+		console.log(this.state)
 		try {
 			const response = await requestJson('/user/register', 'POST', this.state);
 			const data = await response.json();
@@ -134,7 +134,7 @@ class Register extends Component<RouteComponentProps> {
 								onChange={this.onChange}
 								value={this.state.address}
 								required
-							></input>
+							/>
 							<input
 								name="email"
 								type="email"
@@ -143,14 +143,14 @@ class Register extends Component<RouteComponentProps> {
 								value={this.state.email}
 								required
 							></input>
-							<input
+							<PhoneInput
 								name="phone"
-								type="number"
+								type="text"
 								placeholder="Digite seu contato"
 								onChange={this.onChange}
 								value={this.state.phone}
-								required
-							></input>
+								
+							/>
 							<button
 								data-tooltip="Clique aqui para efetuar seu cadastro!"
 								type="submit"

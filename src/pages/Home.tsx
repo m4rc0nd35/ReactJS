@@ -18,17 +18,22 @@ type State = {
 
 class Home extends Component<RouteComponentProps> {
 
-	public state: State = {
-		payload: {
-			id: 0,
-			name: '',
-			email: '',
-			iat: 0,
-			exp: 0
-		}
-	};
-
+	public state: State;
 	private expire: Date = new Date();
+
+	constructor(props: RouteComponentProps) {
+		super(props);
+
+		this.state = {
+			payload: {
+				id: 0,
+				name: '',
+				email: '',
+				iat: 0,
+				exp: 0
+			}
+		}
+	}
 
 	componentDidMount() {
 		try {
@@ -73,29 +78,25 @@ class Home extends Component<RouteComponentProps> {
 		return (
 			<div className="page-home">
 				<nav id="page-menu">
-					<li>test</li>
+					<div id="nav-bar-menu">
+						<li>Home</li>
+						<li>Imagens</li>
+						<li>Usuários</li>
+						<li>Configuração</li>
+					</div>
 					<div id="nav-bar-user">
-						<div>[ {this.state.payload.name.toUpperCase()} ]</div>
+						<div id="label-user">[ {this.state.payload.name.toUpperCase()} ]</div>
 						<p>[ Expira {this.expire.toLocaleDateString() + ' as ' + this.expire.toLocaleTimeString()} ]</p>
+					</div>
+					<div id="nav-bar-user">
+						<li onClick={this.logout}><a>Sair</a></li>
 					</div>
 				</nav>
 				<main id="main-content">
-					<div>
-						<button
-							type="button"
-							onClick={this.tokenKeepAlive}
-						>Check Keep Alive</button>
-						<button
-							data-tooltip="Clique aqui para sair!"
-							type="button"
-							onClick={this.logout}
-						>Logout</button>
-					</div>
 				</main>
-				<footer id="page-footer">Company Dev Cloud Innovations</footer>
+				<footer id="page-footer"><p>Company Dev Cloud</p></footer>
 			</div>
 		)
 	}
 }
-
 export default withRouter(Home);
