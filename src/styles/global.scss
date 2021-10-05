@@ -2,11 +2,16 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	list-style: none;
+}
+a {
+	text-decoration: none;	
 }
 
-body {
-	background: #f8f8f8;
+body, nav, ul, li, p {
 	color: #29292e;
+	font-size: .7rem;
+	font-family: 'Courier New', Courier, monospace;
 }
 
 body, input, select, text, button {

@@ -77,21 +77,25 @@ class Home extends Component<RouteComponentProps> {
 	render() {
 		return (
 			<div className="page-home">
-				<nav id="page-menu">
-					<div id="nav-bar-menu">
-						<li>Home</li>
-						<li>Imagens</li>
-						<li>Usuários</li>
-						<li>Configuração</li>
-					</div>
+				<header className="header">
+					<nav id="nav-bar-menu">
+						<ul id="ul-bar-menu">
+							<li>Home</li>
+							<li>Imagens</li>
+							<li>Usuários</li>
+							<li>Configuração</li>
+						</ul>
+					</nav>
+					
 					<div id="nav-bar-user">
 						<div id="label-user">[ {this.state.payload.name.toUpperCase()} ]</div>
 						<p>[ Expira {this.expire.toLocaleDateString() + ' as ' + this.expire.toLocaleTimeString()} ]</p>
 					</div>
+					
 					<div id="nav-bar-user">
-						<li onClick={this.logout}><a>Sair</a></li>
+						<li><a href="/" onClick={this.logout}>Sair</a></li>
 					</div>
-				</nav>
+				</header>
 				<main id="main-content">
 				</main>
 				<footer id="page-footer"><p>Company Dev Cloud</p></footer>

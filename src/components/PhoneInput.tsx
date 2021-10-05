@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import InputMask, { Props } from 'react-input-mask';
+import { Component } from 'react';
+import InputMask from 'react-input-mask';
 
 interface IProps {
 	name: string;
