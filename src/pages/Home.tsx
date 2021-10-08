@@ -76,8 +76,8 @@ class Home extends Component<RouteComponentProps> {
 
 	render() {
 		return (
-			<div className="page-home">
-				<header className="header">
+			<div className="container">
+				<header>
 					<nav id="nav-bar-menu">
 						<ul id="ul-bar-menu">
 							<li>Home</li>
@@ -86,17 +86,20 @@ class Home extends Component<RouteComponentProps> {
 							<li>Configuração</li>
 						</ul>
 					</nav>
-					
-					<div id="nav-bar-user">
-						<div id="label-user">[ {this.state.payload.name.toUpperCase()} ]</div>
-						<p>[ Expira {this.expire.toLocaleDateString() + ' as ' + this.expire.toLocaleTimeString()} ]</p>
+
+					<div id="div-bar-user">
+						<div id="label-user">{this.state.payload.name.toUpperCase()}</div>
+						<p>Expira {this.expire.toLocaleDateString() + ' as ' + this.expire.toLocaleTimeString()}</p>
 					</div>
-					
-					<div id="nav-bar-user">
+
+					<div id="div-bar-user">
 						<li><a href="/" onClick={this.logout}>Sair</a></li>
 					</div>
 				</header>
-				<main id="main-content">
+				<main className="main-content">
+					<div id="menu-content">
+						<button id="bt-menu" type="button">#test 01</button>
+					</div>
 				</main>
 				<footer id="page-footer"><p>Company Dev Cloud</p></footer>
 			</div>
